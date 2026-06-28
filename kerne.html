@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KERNE — Comprendre ce que l'on boit, l'intégrer à ce que l'on vit</title>
+  <style>
+    :root {
+      --vert: #1E3A2F;
+      --vert-clair: #2D5242;
+      --ivoire: #F7F4ED;
+      --creme: #EDE8DF;
+      --terra: #C4673A;
+      --terra-clair: #D4825A;
+      --noir: #1A1A18;
+      --gris: #6B6B65;
+      --gris-clair: #C8C5BC;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background-color: var(--ivoire);
+      color: var(--noir);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--vert);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 60px;
+    }
+    .nav-logo {
+      font-family: 'Georgia', serif;
+      color: var(--ivoire);
+      font-size: 1.2rem;
+      letter-spacing: 0.15em;
+      font-weight: bold;
+    }
+    .nav-logo span { color: var(--terra); }
+    .nav-cta {
+      background: var(--terra);
+      color: #fff;
+      border: none;
+      padding: 8px 22px;
+      font-family: system-ui, sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--terra-clair); }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: var(--vert);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 5vw 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(196,103,58,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1100px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    .hero-eyebrow {
+      font-family: system-ui, sans-serif;
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--terra); margin-bottom: 20px;
+    }
+    .hero-title {
+      font-family: 'Georgia', serif;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      color: var(--ivoire);
+      line-height: 1.15;
+      font-weight: normal;
+      margin-bottom: 24px;
+    }
+    .hero-title em { font-style: italic; color: var(--terra); }
+    .hero-subtitle {
+      font-family: system-ui, sans-serif;
+      font-size: 1rem;
+      color: rgba(247,244,237,0.72);
+      line-height: 1.7;
+      max-width: 420px;
+      margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+    .btn-primary {
+      background: var(--terra);
+      color: #fff;
+      padding: 14px 32px;
+      font-family: system-ui, sans-serif;
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
+      border: none; cursor: pointer; text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--terra-clair); transform: translateY(-1px); }
+    .btn-ghost {
+      color: var(--ivoire);
+      font-family: system-ui, sans-serif;
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid rgba(247,244,237,0.35);
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--terra); }
+
+    /* Bouteilles visuelles */
+    .hero-bottles {
+      display: flex; gap: 20px; justify-content: center; align-items: flex-end;
+    }
+    .bottle {
+      display: flex; flex-direction: column; align-items: center;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .bottle:hover { transform: translateY(-8px); }
+    .bottle-body {
+      width: 56px; border-radius: 28px 28px 16px 16px;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: flex-end; padding-bottom: 14px;
+      position: relative; overflow: hidden;
+    }
+    .bottle-body::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(160deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .bottle-neck {
+      width: 24px; height: 20px;
+      border-radius: 4px 4px 0 0;
+      margin-bottom: -1px;
+    }
+    .bottle-cap {
+      width: 20px; height: 8px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 3px 3px 0 0;
+      margin-bottom: 0;
+    }
+    .b-racine .bottle-neck, .b-racine .bottle-body { background: #5B4E3A; }
+    .b-racine .bottle-body { height: 130px; }
+    .b-souffle .bottle-neck, .b-souffle .bottle-body { background: #4A6741; }
+    .b-souffle .bottle-body { height: 140px; }
+    .b-ecorce .bottle-neck, .b-ecorce .bottle-body { background: #8B4E2A; }
+    .b-ecorce .bottle-body { height: 125px; }
+    .b-lumiere .bottle-neck, .b-lumiere .bottle-body { background: #C4973A; }
+    .b-lumiere .bottle-body { height: 135px; }
+    .bottle-name {
+      margin-top: 12px;
+      font-family: system-ui, sans-serif;
+      font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(247,244,237,0.55);
+    }
+    .bottle-price {
+      font-family: 'Georgia', serif;
+      font-size: 0.78rem;
+      color: var(--terra);
+      margin-top: 4px;
+    }
+
+    /* ─── SECTION TENSION ─── */
+    .tension {
+      background: var(--creme);
+      padding: 80px 5vw;
+    }
+    .tension-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+    .section-eyebrow {
+      font-family: system-ui, sans-serif;
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--terra); margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Georgia', serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--vert);
+      line-height: 1.25;
+      font-weight: normal;
+      margin-bottom: 20px;
+    }
+    .section-intro {
+      font-family: system-ui, sans-serif;
+      font-size: 1rem; color: var(--gris);
+      line-height: 1.75; max-width: 640px; margin: 0 auto 48px;
+    }
+    .quotes-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .quote-card {
+      background: var(--ivoire);
+      padding: 28px 24px;
+      border-left: 3px solid var(--terra);
+      text-align: left;
+    }
+    .quote-text {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--noir);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .quote-author {
+      font-family: system-ui, sans-serif;
+      font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gris);
+    }
+
+    /* ─── PREUVES / RÉASSURANCE ─── */
+    .preuves {
+      background: var(--vert);
+      padding: 80px 5vw;
+    }
+    .preuves-inner { max-width: 1100px; margin: 0 auto; }
+    .preuves-header { text-align: center; margin-bottom: 60px; }
+    .preuves-header .section-title { color: var(--ivoire); }
+    .preuves-header .section-eyebrow { color: var(--terra); }
+    .preuves-header .section-intro { color: rgba(247,244,237,0.65); }
+    .preuves-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2px; background: rgba(255,255,255,0.08);
+    }
+    .preuve-item {
+      background: var(--vert);
+      padding: 36px 28px;
+      transition: background 0.2s;
+    }
+    .preuve-item:hover { background: var(--vert-clair); }
+    .preuve-num {
+      font-family: 'Georgia', serif;
+      font-size: 2.8rem;
+      color: var(--terra);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .preuve-label {
+      font-family: system-ui, sans-serif;
+      font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(247,244,237,0.55);
+      margin-bottom: 12px;
+    }
+    .preuve-desc {
+      font-family: 'Georgia', serif;
+      font-size: 0.92rem;
+      color: rgba(247,244,237,0.8);
+      line-height: 1.6;
+    }
+
+    /* badges réassurance */
+    .badges-row {
+      display: flex; flex-wrap: wrap; gap: 16px;
+      justify-content: center; margin-top: 48px;
+    }
+    .badge {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 18px;
+      border: 1px solid rgba(247,244,237,0.2);
+      font-family: system-ui, sans-serif;
+      font-size: 0.8rem; letter-spacing: 0.06em;
+      color: rgba(247,244,237,0.75);
+    }
+    .badge-icon { font-size: 1rem; }
+
+    /* ─── SÉLECTEUR PRODUIT ─── */
+    .gamme {
+      background: var(--ivoire);
+      padding: 80px 5vw;
+    }
+    .gamme-inner { max-width: 1100px; margin: 0 auto; }
+    .gamme-header { text-align: center; margin-bottom: 48px; }
+
+    .need-selector {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      justify-content: center; margin-bottom: 40px;
+    }
+    .need-btn {
+      padding: 10px 22px;
+      border: 1.5px solid var(--gris-clair);
+      background: transparent;
+      font-family: system-ui, sans-serif;
+      font-size: 0.82rem; letter-spacing: 0.06em;
+      color: var(--gris);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .need-btn.active, .need-btn:hover {
+      border-color: var(--vert);
+      color: var(--vert);
+      background: var(--creme);
+    }
+    .need-btn.active {
+      background: var(--vert);
+      color: var(--ivoire);
+      border-color: var(--vert);
+    }
+
+    .produits-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2px;
+    }
+    .produit-card {
+      background: var(--creme);
+      padding: 36px 28px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .produit-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .produit-card.racine::before { background: #5B4E3A; }
+    .produit-card.souffle::before { background: #4A6741; }
+    .produit-card.ecorce::before { background: #8B4E2A; }
+    .produit-card.lumiere::before { background: #C4973A; }
+    .produit-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(30,58,47,0.12); }
+    .produit-card.hidden { display: none; }
+
+    .produit-ref {
+      font-family: system-ui, sans-serif;
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gris); margin-bottom: 6px;
+    }
+    .produit-name {
+      font-family: 'Georgia', serif;
+      font-size: 1.5rem; color: var(--vert);
+      font-weight: normal; margin-bottom: 16px;
+    }
+    .produit-adapt {
+      font-family: system-ui, sans-serif;
+      font-size: 0.78rem; color: var(--gris);
+      margin-bottom: 12px; line-height: 1.5;
+    }
+    .produit-benefit {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 0.95rem; color: var(--vert);
+      border-top: 1px solid var(--gris-clair);
+      padding-top: 14px; margin-top: 14px;
+      margin-bottom: 16px;
+    }
+    .produit-footer {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .produit-price {
+      font-family: 'Georgia', serif;
+      font-size: 1.1rem; color: var(--terra);
+    }
+    .produit-add {
+      font-family: system-ui, sans-serif;
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--vert);
+      background: none; border: 1px solid var(--vert);
+      padding: 7px 14px; cursor: pointer;
+      transition: all 0.2s; text-decoration: none;
+    }
+    .produit-add:hover { background: var(--vert); color: var(--ivoire); }
+
+    /* ─── PÉDAGOGIE ADAPTOGÈNES ─── */
+    .peda {
+      background: var(--creme);
+      padding: 80px 5vw;
+    }
+    .peda-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .peda-text .section-eyebrow { margin-bottom: 12px; }
+    .peda-text .section-title { text-align: left; margin-bottom: 20px; }
+    .peda-text p {
+      font-family: system-ui, sans-serif;
+      font-size: 0.95rem; color: var(--gris);
+      line-height: 1.75; margin-bottom: 16px;
+    }
+    .peda-text strong { color: var(--vert); font-weight: 600; }
+
+    .adapt-list { display: flex; flex-direction: column; gap: 16px; }
+    .adapt-item {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding: 20px;
+      background: var(--ivoire);
+      border-left: 2px solid var(--terra);
+    }
+    .adapt-icon {
+      font-size: 1.4rem; flex-shrink: 0; margin-top: 2px;
+    }
+    .adapt-content h4 {
+      font-family: system-ui, sans-serif;
+      font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--vert); margin-bottom: 6px;
+    }
+    .adapt-content p {
+      font-family: system-ui, sans-serif;
+      font-size: 0.85rem; color: var(--gris);
+      line-height: 1.6; margin: 0;
+    }
+
+    /* ─── TRANSPARENCE / INGRÉDIENTS ─── */
+    .transparence {
+      background: var(--ivoire);
+      padding: 80px 5vw;
+    }
+    .transparence-inner { max-width: 1100px; margin: 0 auto; }
+    .transparence-header { text-align: center; margin-bottom: 56px; }
+    .transp-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2px;
+    }
+    .transp-item {
+      padding: 32px 24px;
+      background: var(--creme);
+      text-align: center;
+    }
+    .transp-icon { font-size: 2rem; margin-bottom: 12px; }
+    .transp-title {
+      font-family: 'Georgia', serif;
+      font-size: 1rem; color: var(--vert);
+      margin-bottom: 8px;
+    }
+    .transp-text {
+      font-family: system-ui, sans-serif;
+      font-size: 0.82rem; color: var(--gris);
+      line-height: 1.6;
+    }
+
+    /* ─── TÉMOIGNAGES ─── */
+    .temoignages {
+      background: var(--vert);
+      padding: 80px 5vw;
+    }
+    .temo-inner { max-width: 1100px; margin: 0 auto; }
+    .temo-header { text-align: center; margin-bottom: 56px; }
+    .temo-header .section-title { color: var(--ivoire); }
+    .temo-header .section-eyebrow { color: var(--terra); }
+    .temo-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px;
+    }
+    .temo-card {
+      background: rgba(255,255,255,0.06);
+      padding: 32px 28px;
+    }
+    .temo-stars {
+      color: var(--terra); font-size: 0.9rem; margin-bottom: 16px;
+      letter-spacing: 2px;
+    }
+    .temo-text {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 0.95rem; color: var(--ivoire);
+      line-height: 1.65; margin-bottom: 20px;
+    }
+    .temo-author {
+      font-family: system-ui, sans-serif;
+      font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(247,244,237,0.45);
+    }
+    .temo-meta {
+      margin-top: 32px; text-align: center;
+      font-family: system-ui, sans-serif;
+      font-size: 0.85rem; color: rgba(247,244,237,0.5);
+    }
+    .temo-meta strong { color: var(--terra); }
+
+    /* ─── FAQ ─── */
+    .faq {
+      background: var(--creme);
+      padding: 80px 5vw;
+    }
+    .faq-inner { max-width: 760px; margin: 0 auto; }
+    .faq-header { text-align: center; margin-bottom: 48px; }
+    .faq-item {
+      border-bottom: 1px solid var(--gris-clair);
+    }
+    .faq-question {
+      width: 100%; background: none; border: none;
+      text-align: left; padding: 20px 0;
+      display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer;
+      font-family: 'Georgia', serif;
+      font-size: 1rem; color: var(--vert);
+      line-height: 1.4;
+    }
+    .faq-question:hover { color: var(--terra); }
+    .faq-arrow {
+      font-size: 1.2rem; transition: transform 0.25s;
+      color: var(--terra); flex-shrink: 0; margin-left: 16px;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(45deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height 0.35s ease;
+    }
+    .faq-item.open .faq-answer { max-height: 400px; }
+    .faq-answer-inner {
+      font-family: system-ui, sans-serif;
+      font-size: 0.9rem; color: var(--gris);
+      line-height: 1.75; padding-bottom: 20px;
+    }
+    .faq-answer-inner strong { color: var(--vert); }
+
+    /* ─── CTA FINAL ─── */
+    .cta-final {
+      background: var(--ivoire);
+      padding: 100px 5vw;
+      text-align: center;
+    }
+    .cta-final .section-title { margin-bottom: 16px; }
+    .cta-final .section-intro { margin: 0 auto 36px; }
+    .cta-final-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-secondary {
+      padding: 14px 32px;
+      border: 1.5px solid var(--vert);
+      color: var(--vert);
+      font-family: system-ui, sans-serif;
+      font-size: 0.88rem; letter-spacing: 0.06em;
+      background: none; cursor: pointer; text-decoration: none;
+      transition: all 0.2s; display: inline-block;
+    }
+    .btn-secondary:hover { background: var(--vert); color: var(--ivoire); }
+
+    /* Garantie */
+    .garantie-strip {
+      display: flex; flex-wrap: wrap; gap: 32px;
+      justify-content: center; margin-top: 48px;
+      padding-top: 40px;
+      border-top: 1px solid var(--gris-clair);
+    }
+    .garantie-item {
+      display: flex; align-items: center; gap: 10px;
+      font-family: system-ui, sans-serif;
+      font-size: 0.82rem; color: var(--gris);
+    }
+    .garantie-item span:first-child { font-size: 1.1rem; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--vert);
+      padding: 40px 5vw;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo {
+      font-family: 'Georgia', serif;
+      font-size: 1rem; letter-spacing: 0.15em;
+      color: var(--ivoire);
+    }
+    .footer-logo span { color: var(--terra); }
+    .footer-links {
+      display: flex; gap: 24px; flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-family: system-ui, sans-serif;
+      font-size: 0.75rem; letter-spacing: 0.08em;
+      color: rgba(247,244,237,0.45); text-decoration: none;
+    }
+    .footer-links a:hover { color: var(--terra); }
+    .footer-note {
+      width: 100%;
+      font-family: system-ui, sans-serif;
+      font-size: 0.68rem; color: rgba(247,244,237,0.3);
+      line-height: 1.6; margin-top: 16px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-bottles { display: none; }
+      .peda-inner { grid-template-columns: 1fr; gap: 40px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-left { animation: fadeUp 0.8s ease both; }
+    .hero-bottles { animation: fadeUp 0.8s 0.2s ease both; }
+
+    /* Compteurs animés */
+    .count-num { display: inline-block; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">KERN<span>E</span></div>
+  <a href="#commander" class="nav-cta">Commander</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Boissons végétales fonctionnelles · Rennes, France · depuis 2021</p>
+      <h1 class="hero-title">
+        Comprendre ce que l'on boit,<br>
+        <em>l'intégrer à ce que l'on vit.</em>
+      </h1>
+      <p class="hero-subtitle">
+        KERNE ADAPT, c'est quatre boissons conçues avec l'INRAE pour vous donner l'énergie, l'équilibre et la clarté dont vous avez besoin — sans promesses floues, avec des preuves.
+      </p>
+      <div class="hero-actions">
+        <a href="#gamme" class="btn-primary">Choisir ma boisson</a>
+        <a href="#preuves" class="btn-ghost">Nos preuves →</a>
+      </div>
+    </div>
+    <div class="hero-bottles">
+      <div class="bottle b-racine">
+        <div class="bottle-cap"></div>
+        <div class="bottle-neck"></div>
+        <div class="bottle-body"></div>
+        <div class="bottle-name">Racine</div>
+        <div class="bottle-price">3,90 €</div>
+      </div>
+      <div class="bottle b-souffle">
+        <div class="bottle-cap"></div>
+        <div class="bottle-neck"></div>
+        <div class="bottle-body"></div>
+        <div class="bottle-name">Souffle</div>
+        <div class="bottle-price">3,90 €</div>
+      </div>
+      <div class="bottle b-ecorce">
+        <div class="bottle-cap"></div>
+        <div class="bottle-neck"></div>
+        <div class="bottle-body"></div>
+        <div class="bottle-name">Écorce</div>
+        <div class="bottle-price">4,20 €</div>
+      </div>
+      <div class="bottle b-lumiere">
+        <div class="bottle-cap"></div>
+        <div class="bottle-neck"></div>
+        <div class="bottle-body"></div>
+        <div class="bottle-name">Lumière</div>
+        <div class="bottle-price">4,20 €</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TENSION CONSOMMATEUR -->
+<section class="tension">
+  <div class="tension-inner">
+    <p class="section-eyebrow">Ce que vous ressentez</p>
+    <h2 class="section-title">« Je veux prendre soin de moi,<br>mais je veux comprendre ce que j'avale. »</h2>
+    <p class="section-intro">
+      Vous avez raison d'être exigeant·e. Chez KERNE, on ne promet pas de miracles. On vous explique exactement ce qu'il y a dans chaque bouteille, pourquoi, et d'où ça vient.
+    </p>
+    <div class="quotes-grid">
+      <div class="quote-card">
+        <p class="quote-text">« Ce que j'aime c'est quand une marque m'explique vraiment ce qu'il y a dedans et pourquoi. Pas juste des mots en latin. »</p>
+        <div class="quote-author">Sarah, 28 ans · Lyon · utilisatrice KERNE</div>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">« Le partenariat INRAE c'est ce qui m'a convaincue. Si c'est vrai et vérifiable, c'est exactement la crédibilité qui me manquait. »</p>
+        <div class="quote-author">Agathe, 28 ans · Lyon · consommatrice régulière</div>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">« Si une marque me montre ses ingrédients, l'agriculteur qui les cultive, et m'explique pourquoi ça marche, j'achète. »</p>
+        <div class="quote-author">Antoine, 27 ans · Toulouse · premier achat en ligne</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREUVES / RÉASSURANCE -->
+<section class="preuves" id="preuves">
+  <div class="preuves-inner">
+    <div class="preuves-header">
+      <p class="section-eyebrow">Nos preuves, pas nos promesses</p>
+      <h2 class="section-title" style="color:var(--ivoire)">Ce qui rend KERNE différente</h2>
+      <p class="section-intro" style="color:rgba(247,244,237,0.65);max-width:560px;margin:0 auto">
+        Chaque chiffre ici est réel, vérifiable, et il y a une histoire derrière. On vous la raconte.
+      </p>
+    </div>
+    <div class="preuves-grid">
+      <div class="preuve-item">
+        <div class="preuve-num"><span class="count-num" data-target="18">0</span> mois</div>
+        <div class="preuve-label">R&D avec l'INRAE</div>
+        <div class="preuve-desc">Dix-huit mois de recherche avec l'Institut national de recherche pour l'agriculture, l'alimentation et l'environnement, avant de formuler la moindre recette.</div>
+      </div>
+      <div class="preuve-item">
+        <div class="preuve-num"><span class="count-num" data-target="2">0</span> ans</div>
+        <div class="preuve-label">Tests terrain réels</div>
+        <div class="preuve-desc">Deux années de test en circuit court breton — marchés, AMAP, épiceries bio — avant tout lancement commercial.</div>
+      </div>
+      <div class="preuve-item">
+        <div class="preuve-num"><span class="count-num" data-target="38">0</span>%</div>
+        <div class="preuve-label">Croissance 2024–2025</div>
+        <div class="preuve-desc">Une croissance organique, portée par la satisfaction des premiers consommateurs, pas par la publicité.</div>
+      </div>
+      <div class="preuve-item">
+        <div class="preuve-num"><span class="count-num" data-target="4">0</span>.7/5</div>
+        <div class="preuve-label">Note moyenne produits</div>
+        <div class="preuve-desc">Sur 312 avis vérifiés sur notre site e-commerce direct. Chaque avis est authentique — aucune sélection.</div>
+      </div>
+      <div class="preuve-item">
+        <div class="preuve-num"><span class="count-num" data-target="54">0</span>%</div>
+        <div class="preuve-label">Recommandent KERNE</div>
+        <div class="preuve-desc">Plus d'un consommateur sur deux recommande activement KERNE à ses proches dans notre zone de test régionale.</div>
+      </div>
+      <div class="preuve-item">
+        <div class="preuve-num"><span class="count-num" data-target="100">0</span>%</div>
+        <div class="preuve-label">Verre recyclé</div>
+        <div class="preuve-desc">Bouteilles en verre 100% recyclé, bouchon en liège naturel, étiquettes en papier ensemencé — des graines à planter.</div>
+      </div>
+    </div>
+    <div class="badges-row">
+      <div class="badge"><span class="badge-icon">🔬</span><span>Partenariat INRAE certifié</span></div>
+      <div class="badge"><span class="badge-icon">🌿</span><span>Ingrédients tracés à la source</span></div>
+      <div class="badge"><span class="badge-icon">♻️</span><span>Packaging 100% éco-responsable</span></div>
+      <div class="badge"><span class="badge-icon">🚫</span><span>Aucune allégation thérapeutique</span></div>
+      <div class="badge"><span class="badge-icon">🇫🇷</span><span>Marque française, Rennes 2021</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- GAMME INTERACTIVE -->
+<section class="gamme" id="gamme">
+  <div class="gamme-inner">
+    <div class="gamme-header">
+      <p class="section-eyebrow">La gamme KERNE ADAPT</p>
+      <h2 class="section-title">Quelle est votre priorité du moment ?</h2>
+      <p class="section-intro">Filtrez par besoin pour trouver votre boisson. Chaque référence est formulée autour d'un adaptogène végétal central.</p>
+    </div>
+
+    <div class="need-selector">
+      <button class="need-btn active" data-filter="all">Toutes les références</button>
+      <button class="need-btn" data-filter="stress">Résistance au stress</button>
+      <button class="need-btn" data-filter="energie">Énergie & clarté</button>
+      <button class="need-btn" data-filter="recuperation">Récupération</button>
+      <button class="need-btn" data-filter="immunite">Équilibre immunitaire</button>
+    </div>
+
+    <div class="produits-grid">
+      <div class="produit-card racine" data-needs="stress immunite">
+        <div class="produit-ref">KERNE ADAPT</div>
+        <div class="produit-name">Racine</div>
+        <div class="produit-adapt">Ashwagandha + betterave fermentée<br>Pressé à froid · 25 cl</div>
+        <div class="produit-benefit">Résistance au stress, ancrage</div>
+        <p style="font-family:system-ui;font-size:0.82rem;color:var(--gris);line-height:1.6;margin-bottom:16px">
+          L'ashwagandha est une plante adaptogène utilisée en médecine ayurvédique depuis des siècles. Associée à la betterave fermentée, elle soutient votre capacité à traverser les périodes de tension — sans excitant.
+        </p>
+        <div class="produit-footer">
+          <div class="produit-price">3,90 € / 25 cl</div>
+          <a href="#commander" class="produit-add">Ajouter au panier</a>
+        </div>
+      </div>
+
+      <div class="produit-card souffle" data-needs="energie">
+        <div class="produit-ref">KERNE ADAPT</div>
+        <div class="produit-name">Souffle</div>
+        <div class="produit-adapt">Rhodiola + gingembre + yuzu<br>Pressé à froid · 25 cl</div>
+        <div class="produit-benefit">Énergie durable, clarté mentale</div>
+        <p style="font-family:system-ui;font-size:0.82rem;color:var(--gris);line-height:1.6;margin-bottom:16px">
+          La rhodiola est reconnue pour soutenir les fonctions cognitives en période de fatigue. Associée au gingembre et au yuzu, elle donne une énergie progressive — sans pic ni chute.
+        </p>
+        <div class="produit-footer">
+          <div class="produit-price">3,90 € / 25 cl</div>
+          <a href="#commander" class="produit-add">Ajouter au panier</a>
+        </div>
+      </div>
+
+      <div class="produit-card ecorce" data-needs="recuperation">
+        <div class="produit-ref">KERNE ADAPT</div>
+        <div class="produit-name">Écorce</div>
+        <div class="produit-adapt">Reishi + cacao cru + maca<br>Pressé à froid · 25 cl</div>
+        <div class="produit-benefit">Récupération, vitalité profonde</div>
+        <p style="font-family:system-ui;font-size:0.82rem;color:var(--gris);line-height:1.6;margin-bottom:16px">
+          Le reishi — champignon adaptogène — est associé depuis des millénaires à la récupération. Combiné au cacao cru et au maca, il soutient votre vitalité après l'effort physique ou mental.
+        </p>
+        <div class="produit-footer">
+          <div class="produit-price">4,20 € / 25 cl</div>
+          <a href="#commander" class="produit-add">Ajouter au panier</a>
+        </div>
+      </div>
+
+      <div class="produit-card lumiere" data-needs="immunite stress">
+        <div class="produit-ref">KERNE ADAPT</div>
+        <div class="produit-name">Lumière</div>
+        <div class="produit-adapt">Ashwagandha + curcuma + poivre noir<br>Pressé à froid · 25 cl</div>
+        <div class="produit-benefit">Équilibre immunitaire, anti-inflammatoire</div>
+        <p style="font-family:system-ui;font-size:0.82rem;color:var(--gris);line-height:1.6;margin-bottom:16px">
+          Le curcuma combiné au poivre noir (pour l'absorption de la curcumine) et à l'ashwagandha : une formule pensée pour les périodes où votre système immunitaire a besoin de soutien.
+        </p>
+        <div class="produit-footer">
+          <div class="produit-price">4,20 € / 25 cl</div>
+          <a href="#commander" class="produit-add">Ajouter au panier</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PÉDAGOGIE ADAPTOGÈNES -->
+<section class="peda">
+  <div class="peda-inner">
+    <div class="peda-text">
+      <p class="section-eyebrow">On vous explique</p>
+      <h2 class="section-title">C'est quoi, un adaptogène ?</h2>
+      <p>Un adaptogène est une plante qui aide votre organisme à <strong>s'adapter aux stress</strong> — physiques, émotionnels ou environnementaux. Ce n'est pas un médicament. Ce n'est pas une promesse magique.</p>
+      <p>C'est une plante dont les propriétés sont <strong>documentées par des siècles d'usage traditionnel</strong> et, pour certaines, par des études scientifiques modernes. C'est précisément pourquoi nous avons travaillé avec l'INRAE : pour sélectionner les adaptogènes dont les effets sont les mieux documentés.</p>
+      <p>Chez KERNE, nous ne disons jamais qu'une boisson va "guérir" ou "traiter" quoi que ce soit. Nous disons ce que chaque ingrédient <strong>peut soutenir</strong>, dans quelles conditions, et avec quelles limites.</p>
+    </div>
+    <div class="adapt-list">
+      <div class="adapt-item">
+        <div class="adapt-icon">🌿</div>
+        <div class="adapt-content">
+          <h4>Ashwagandha</h4>
+          <p>Plante ayurvédique. Soutient la résistance au stress chronique. Utilisé dans RACINE et LUMIÈRE.</p>
+        </div>
+      </div>
+      <div class="adapt-item">
+        <div class="adapt-icon">🏔️</div>
+        <div class="adapt-content">
+          <h4>Rhodiola</h4>
+          <p>Plante des régions nordiques. Soutient les fonctions cognitives en cas de fatigue. Utilisé dans SOUFFLE.</p>
+        </div>
+      </div>
+      <div class="adapt-item">
+        <div class="adapt-icon">🍄</div>
+        <div class="adapt-content">
+          <h4>Reishi</h4>
+          <p>Champignon médicinal millénaire. Associé à la récupération et à l'équilibre immunitaire. Utilisé dans ÉCORCE.</p>
+        </div>
+      </div>
+      <div class="adapt-item">
+        <div class="adapt-icon">🌱</div>
+        <div class="adapt-content">
+          <h4>Curcuma + Poivre noir</h4>
+          <p>Association reconnue : la pipérine du poivre noir multiplie l'absorption de la curcumine. Utilisé dans LUMIÈRE.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSPARENCE -->
+<section class="transparence">
+  <div class="transparence-inner">
+    <div class="transparence-header">
+      <p class="section-eyebrow">Notre engagement</p>
+      <h2 class="section-title">Transparent par conviction, pas par obligation</h2>
+      <p class="section-intro">Nous aurions pu faire comme les autres : un beau packaging et des mots en latin. On a choisi d'expliquer.</p>
+    </div>
+    <div class="transp-grid">
+      <div class="transp-item">
+        <div class="transp-icon">📍</div>
+        <div class="transp-title">Origine tracée</div>
+        <div class="transp-text">Chaque ingrédient est sourçable jusqu'à son producteur. Disponible sur demande et dans notre FAQ produit.</div>
+      </div>
+      <div class="transp-item">
+        <div class="transp-icon">🔬</div>
+        <div class="transp-title">R&D documentée</div>
+        <div class="transp-text">18 mois de recherche avec l'INRAE, disponibles en résumé non-technique sur notre site.</div>
+      </div>
+      <div class="transp-item">
+        <div class="transp-icon">🌱</div>
+        <div class="transp-title">Étiquette ensemencée</div>
+        <div class="transp-text">Nos étiquettes en papier ensemencé contiennent de vraies graines. À planter après usage.</div>
+      </div>
+      <div class="transp-item">
+        <div class="transp-icon">⚖️</div>
+        <div class="transp-title">Conforme CE 1924/2006</div>
+        <div class="transp-text">Toutes nos communications respectent strictement le règlement européen sur les allégations nutritionnelles et de santé.</div>
+      </div>
+      <div class="transp-item">
+        <div class="transp-icon">🫙</div>
+        <div class="transp-title">Verre 100% recyclé</div>
+        <div class="transp-text">Bouteilles en verre recyclé, bouchon en liège naturel. Un bilan carbone disponible prochainement.</div>
+      </div>
+      <div class="transp-item">
+        <div class="transp-icon">🤝</div>
+        <div class="transp-title">Sans intermédiaire</div>
+        <div class="transp-text">Vente directe sur notre site. Pas de distributeur entre nous et vous. Vos questions ont une vraie réponse.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TÉMOIGNAGES -->
+<section class="temoignages">
+  <div class="temo-inner">
+    <div class="temo-header">
+      <p class="section-eyebrow">Ils ont essayé</p>
+      <h2 class="section-title" style="color:var(--ivoire)">Ce qu'en disent nos premiers clients</h2>
+    </div>
+    <div class="temo-grid">
+      <div class="temo-card">
+        <div class="temo-stars">★★★★★</div>
+        <p class="temo-text">« La SOUFFLE le matin avant mon trajet, ça remplace mon deuxième café. Je suis plus calme mais plus concentrée. Et je comprends pourquoi. »</p>
+        <div class="temo-author">Claire D. · Paris · acheteuse régulière</div>
+      </div>
+      <div class="temo-card">
+        <div class="temo-stars">★★★★★</div>
+        <p class="temo-text">« J'étais sceptique sur les adaptogènes. Mais KERNE m'a expliqué sans survendre. J'ai testé la RACINE en période de rush au boulot. Effet réel. »</p>
+        <div class="temo-author">Thomas R. · Lyon · commandé en ligne</div>
+      </div>
+      <div class="temo-card">
+        <div class="temo-stars">★★★★☆</div>
+        <p class="temo-text">« Le prix m'a d'abord fait hésiter. Puis j'ai lu d'où venaient les ingrédients. Ce n'est pas de l'eau avec une plante. C'est pensé. »</p>
+        <div class="temo-author">Mathilde K. · Nantes · marché Biocoop</div>
+      </div>
+    </div>
+    <p class="temo-meta">Note moyenne : <strong>4,7/5</strong> sur 312 avis vérifiés · site direct KERNE</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="faq-inner">
+    <div class="faq-header">
+      <p class="section-eyebrow">On répond honnêtement</p>
+      <h2 class="section-title">Les vraies questions</h2>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Est-ce que ça marche vraiment ?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Réponse honnête : <strong>ça dépend de vous, de votre mode de vie et du produit choisi.</strong> Les adaptogènes sont des plantes dont les effets sont documentés — pas des médicaments. Ils peuvent soutenir votre organisme dans la durée, pas le transformer du jour au lendemain. Nos formules ont été développées avec l'INRAE pour maximiser l'absorption et la qualité des ingrédients. Mais nous ne promettons pas de miracles. Nous vous donnons les clés pour comprendre ce que vous buvez.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Pourquoi ce prix ? C'est cher pour une boisson.
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          3,90 € les 25 cl, c'est effectivement un prix premium. Il reflète <strong>la qualité des ingrédients tracés, la R&D avec l'INRAE, le packaging éco-responsable</strong> et le fait que nous ne coupons pas les coûts sur ce qui compte. C'est plus accessible qu'une consultation chez un naturopathe. Et vous savez exactement ce que vous payez.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        C'est quoi concrètement un adaptogène ?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Un adaptogène est une plante qui <strong>aide l'organisme à s'adapter aux stress</strong> — physiques, cognitifs ou émotionnels — sans l'exciter ni le déprimer. L'ashwagandha, la rhodiola, le reishi font partie de cette famille. Leurs effets sont documentés par la recherche scientifique moderne, en plus de siècles d'usage traditionnel. Chez KERNE, on vous explique le rôle de chaque ingrédient sur la fiche produit — sans jargon.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Où sont fabriquées vos boissons ?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          KERNE est une marque française fondée à Rennes. Notre production s'appuie sur des partenaires locaux et régionaux, avec une traçabilité totale des ingrédients. La gamme KERNE ADAPT a été testée deux ans en circuit court breton avant d'être proposée au niveau national. Tous les détails d'origine sont disponibles dans la FAQ produit complète ou sur demande directe.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Y a-t-il des contre-indications ?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          KERNE ne formule aucune allégation thérapeutique. <strong>En cas de traitement médical, de grossesse ou d'allaitement, consultez un professionnel de santé</strong> avant de consommer des boissons à base d'adaptogènes. Nos boissons sont des compléments alimentaires sous forme de boisson — pas des médicaments. La composition complète de chaque référence est disponible sur l'étiquette et sur notre site.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="commander">
+  <p class="section-eyebrow">Première commande</p>
+  <h2 class="section-title">Prêt·e à comprendre ce que vous buvez ?</h2>
+  <p class="section-intro">
+    Livraison en 48h. Paiement sécurisé. Et si vous avez la moindre question sur un ingrédient, notre équipe répond — vraiment.
+  </p>
+  <div class="cta-final-actions">
+    <a href="#gamme" class="btn-primary">Choisir ma boisson KERNE</a>
+    <a href="#preuves" class="btn-secondary">Voir nos preuves d'abord</a>
+  </div>
+
+  <div class="garantie-strip">
+    <div class="garantie-item"><span>🚚</span><span>Livraison gratuite dès 35 €</span></div>
+    <div class="garantie-item"><span>🔒</span><span>Paiement 100% sécurisé</span></div>
+    <div class="garantie-item"><span>💬</span><span>Support humain, pas un bot</span></div>
+    <div class="garantie-item"><span>📦</span><span>Emballage éco-responsable</span></div>
+    <div class="garantie-item"><span>🌱</span><span>Étiquette à planter</span></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">KERN<span>E</span></div>
+    <div class="footer-links">
+      <a href="#">Nos produits</a>
+      <a href="#">Notre histoire</a>
+      <a href="#">L'INRAE & nous</a>
+      <a href="#">FAQ</a>
+      <a href="#">Mentions légales</a>
+      <a href="#">CGV</a>
+    </div>
+  </div>
+  <p class="footer-note" style="max-width:1100px;margin:16px auto 0">
+    KERNE — Boissons végétales fonctionnelles · Rennes, France · Fondée en 2021 · SIRET fictif à des fins pédagogiques<br>
+    Les informations présentées sur cette page sont à titre informatif. Aucune allégation thérapeutique n'est formulée. Conformément au règlement européen CE 1924/2006 sur les allégations nutritionnelles et de santé. En cas de doute, consultez un professionnel de santé.
+  </p>
+</footer>
+
+<script>
+  // ─── FAQ ACCORDION ───
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // ─── FILTRE GAMME ───
+  const needBtns = document.querySelectorAll('.need-btn');
+  const produitCards = document.querySelectorAll('.produit-card');
+
+  needBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      needBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      produitCards.forEach(card => {
+        if (filter === 'all') {
+          card.classList.remove('hidden');
+        } else {
+          const needs = card.dataset.needs || '';
+          card.classList.toggle('hidden', !needs.includes(filter));
+        }
+      });
+    });
+  });
+
+  // ─── COMPTEURS ANIMÉS ───
+  function animateCount(el, target, decimals = 0) {
+    const duration = 1200;
+    const start = performance.now();
+    const from = 0;
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const value = from + (target - from) * ease;
+      el.textContent = decimals > 0 ? value.toFixed(1) : Math.round(value);
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  // Observer pour déclencher au scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const raw = el.dataset.target;
+        const target = parseFloat(raw);
+        const decimals = raw.includes('.') ? 1 : 0;
+        animateCount(el, target, decimals);
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.count-num').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
